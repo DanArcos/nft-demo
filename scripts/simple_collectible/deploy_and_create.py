@@ -1,11 +1,10 @@
-from scripts.helpful_scripts import get_account
+from scripts.helpful_scripts import get_account, OPENSEA_URL
 from brownie import SimpleCollectible, network
 
 sample_token_uri = "https://ipfs.io/ipfs/Qmd9MCGtdVz2miNumBHDbvj8bigSgTwnr4SbyH6DNnpWdt?filename=0-PUG.json"
-OPENSEA_URL = "https://testnets.opensea.io/assets/{}/{}"
 
 
-def main():
+def deploy_and_create():
     account = get_account()
     print(f"The network currently in use is: {network.show_active()}")
     simple_collectible = SimpleCollectible.deploy({"from": account})
@@ -15,3 +14,8 @@ def main():
         f"Awesome, you can view your NFT at {OPENSEA_URL.format(simple_collectible.address, simple_collectible.tokenCounter()-1)}"
     )
     print("Please wait up to 20 minutes, and hit the refresh metadata button.")
+    return simple_collectible
+
+
+def main():
+    deploy_and_create()
